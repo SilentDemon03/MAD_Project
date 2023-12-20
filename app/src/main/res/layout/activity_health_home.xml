@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HealthHome">
+
+    <TextView
+        android:id = "@+id/serviceTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Health Services"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/backBtntoHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/serviceTxt"
+        android:layout_marginTop="15dp"
+        android:text = "Back"
+        android:layout_marginStart="50dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_community_chatroom"
+        android:theme="@style/Theme.MaterialComponents"
+        android:layout_below="@id/serviceTxt"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Community Chatroom"
+        android:textSize="17dp"
+        android:textAllCaps="false"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="16dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/black"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:drawableLeft="@drawable/ph_chat_circle_dots_light"
+        app:iconPadding="8dp"
+        app:iconGravity="textStart"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_counselling"
+        android:theme="@style/Theme.MaterialComponents"
+        android:layout_below="@id/btn_community_chatroom"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/mdi_help_outline"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Counselling Services"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:cornerRadius="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_health_education"
+        android:theme="@style/Theme.MaterialComponents"
+        android:layout_below="@id/btn_counselling"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/carbon_health_cross"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Health Education Hub"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:cornerRadius="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_emergency_locator"
+        android:theme="@style/Theme.MaterialComponents"
+        android:layout_below="@id/btn_health_education"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/carbon_location"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Emergency Locator"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:cornerRadius="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:id = "@+id/tv_article"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Articles Related to Health"
+        android:layout_below="@+id/btn_emergency_locator"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="22dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_health_education_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_emergency_locator"
+        android:layout_toRightOf="@id/tv_article"
+        android:layout_marginTop="10dp"
+        android:contentDescription="Learn More about Health Education"
+        android:drawableRight="@drawable/pepicons_pencil_arrow_left"
+        style="@style/CustomButtonStyle"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_below="@id/tv_article"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/unsplash_xyvicrdgwic" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Rian Mandella"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="How to Cope with Stress"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/black"
+                    android:text="Many of us are facing challenges that can be stressful, overwhelming, and cause strong emotions in adults and children. Public health actions, such as physical distancing....."
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</RelativeLayout>
+

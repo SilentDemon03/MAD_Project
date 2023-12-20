@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".CommunityChatroom">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnBack1"
+        style="@style/CustomButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="Back"
+        android:drawableLeft="@drawable/back"
+        android:minWidth="48dp"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id = "@+id/chatTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Community Chatroom"
+        android:textStyle="bold"
+        android:layout_marginTop="38dp"
+        android:layout_toRightOf="@+id/BtnBack1"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnCreateGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/fluent_chat_add_24_regular"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/chatTxt"
+        style="@style/CustomButtonStyle"
+        android:contentDescription="Create group"/>
+
+</RelativeLayout>

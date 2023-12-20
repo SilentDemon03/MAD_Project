@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/carbon_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_faq"
+        android:icon="@drawable/material_symbols_help_outline"
+        android:title="@string/title_faq" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/uil_setting"
+        android:title="@string/title_settings" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/gg_profile"
+        android:title="@string/title_profile" />
+</menu>

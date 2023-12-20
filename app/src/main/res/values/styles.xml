@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MaterialComponents" parent = "Theme.MaterialComponents.Light.NoActionBar"></style>
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="MyOutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/black</item> <!-- Define stroke color -->
+        <item name="strokeWidth">1dp</item> <!-- Define stroke width -->
+        <!-- You can add more customizations here. -->
+    </style>
+
+</resources>
