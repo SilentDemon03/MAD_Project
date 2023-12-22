@@ -29,7 +29,7 @@
         android:layout_toRightOf="@+id/BtnBackLocator"
         android:textSize="25dp"
         android:textColor="@color/black" />
-    
+
     <fragment
         class = "com.google.android.gms.maps.SupportMapFragment"
         android:id = "@+id/map_view"

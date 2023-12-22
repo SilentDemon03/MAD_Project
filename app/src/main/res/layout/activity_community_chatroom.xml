@@ -31,15 +31,57 @@
         android:textColor="@color/black"
         android:layout_marginStart="20dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/BtnCreateGroup"
+    <ImageView
+        android:id="@+id/chatRoomImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/fluent_chat_add_24_regular"
+        android:layout_height="320dp"
+        android:layout_below="@+id/chatTxt"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/chatTxt"
-        style="@style/CustomButtonStyle"
-        android:contentDescription="Create group"/>
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="55dp"
+        app:srcCompat="@drawable/big_modern_smartphone_with_speech_bubbles_two_cute_male_female_characters_sitting_signs_985641_481" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop = "30dp"
+        android:layout_below="@+id/chatRoomImage"
+        android:background="@drawable/rounded_background">
+
+        <ImageView
+            android:id = "@+id/chatImg"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/bubble_chat_notification__1_" />
+
+        <TextView
+            android:id="@+id/startChatTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:text="Start sending messages \nto the chat room"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:fontFamily="@font/interbold"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/BtnChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="190dp"
+            android:text="Chat now"
+            android:fontFamily="@font/interbold"
+            android:padding="15dp"
+            android:textSize="21dp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/darkblue" />
+
+    </FrameLayout>
 
 </RelativeLayout>

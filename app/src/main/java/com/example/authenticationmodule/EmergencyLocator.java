@@ -52,26 +52,18 @@ public class EmergencyLocator extends AppCompatActivity implements OnMapReadyCal
         BtnBackEmergency = findViewById(R.id.BtnBackLocator);
         fab = findViewById(R.id.fab);
 
-//        Fragment fragment = new Map_Fragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
-
         checkMyPermission();
 
         initMap();
 
         mLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-       fab.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               getCurrLoc();
-           }
-       });
-
-//        if(isPermissionGranted){
-//            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
-//            supportMapFragment.getMapAsync(this);
-//        }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCurrLoc();
+            }
+        });
 
         BtnBackEmergency.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,25 +101,30 @@ public class EmergencyLocator extends AppCompatActivity implements OnMapReadyCal
         }
         return false;
     }
+
     @SuppressLint("MissingPermission")
     private void getCurrLoc() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // TODO: Request location permissions if needed
             return;
         }
+
         mLocationClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Location location = task.getResult();
-                gotoLocation(location.getLatitude(), location.getLongitude());
+                if (location != null) {
+                    gotoLocation(location.getLatitude(), location.getLongitude());
+                } else {
+                    // Handle the case when location is null
+                    Toast.makeText(this, "Location not available", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Handle the case when the task is not successful
+                Toast.makeText(this, "Failed to get location", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void gotoLocation(double latitude, double longitude) {
         LatLng latLng = new LatLng(latitude,longitude);
