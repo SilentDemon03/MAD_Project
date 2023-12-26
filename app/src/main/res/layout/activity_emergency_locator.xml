@@ -7,16 +7,16 @@
     tools:context=".EmergencyLocator"
     android:layout_margin = "10dp">
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:id="@+id/BtnBackLocator"
-        style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:contentDescription="Back"
-        android:drawableLeft="@drawable/back"
         android:minWidth="48dp"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:src="@drawable/back"
+        android:background="@null"/>
 
     <TextView
         android:id = "@+id/emergencyTxt"
@@ -26,7 +26,7 @@
         android:layout_marginStart="40dp"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/BtnBackLocator"
+        android:layout_toRightOf="@id/BtnBackLocator"
         android:textSize="25dp"
         android:textColor="@color/black" />
 
@@ -35,15 +35,44 @@
         android:id = "@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/emergencyTxt"
+        android:layout_below="@id/emergencyTxt"
         android:layout_marginTop="15dp"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id = "@+id/fab"
-        android:contentDescription="Relocate"
+    <Spinner
+        android:id="@+id/SPCategory"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#d0dfe6"
+        android:minHeight="48dp"
+        android:layout_below="@id/BtnBackLocator"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/BtnFind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Find"
+        android:textColor="@color/white"
+        android:fontFamily="@font/interbold"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/darkblue"
+        android:layout_marginStart="15dp"
+        android:layout_below="@id/BtnBackLocator"
+        android:layout_toRightOf="@id/SPCategory"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
         android:layout_marginTop="690dp"
-        android:layout_marginStart="300dp"/>
+        android:contentDescription="Relocate"
+        android:backgroundTint="@color/darkblue"
+        app:tint="@color/white"
+        app:srcCompat="@drawable/baseline_my_location_24" />
 
 </RelativeLayout>

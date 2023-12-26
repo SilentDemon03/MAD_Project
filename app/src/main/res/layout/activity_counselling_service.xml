@@ -1,9 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CounsellingService">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/BtnBackFromCounselling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="Back"
+        android:background="@null"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id ="@+id/TxtCounselling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text= "Listening, Guiding and \nShaping Your Future"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/BtnBackFromCounselling"
+        android:layout_marginTop="40dp"
+        android:textSize="25dp"
+        android:fontFamily="@font/interbold"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/ImageCounselling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/images__1_"
+        android:layout_below="@+id/TxtCounselling"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/BtnPatient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I need counselling"
+        android:textAllCaps="false"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/ImageCounselling"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/interbold"
+        android:backgroundTint="@color/darkblue"/>
+
+    <Button
+        android:id="@+id/BtnCounsellor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I am a counsellor"
+        android:textAllCaps="false"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/BtnPatient"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/interbold"
+        android:backgroundTint="@color/darkblue"/>
+
+</RelativeLayout>
