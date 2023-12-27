@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.authenticationmodule.databinding.ActivityDisplayCounsellorBinding;
 import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -21,8 +22,9 @@ public class displayCounsellor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         binding = ActivityDisplayCounsellorBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_display_counsellor);
+        setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         getToken();
         setListeners();
@@ -41,15 +43,35 @@ public class displayCounsellor extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
 
-    private void updateToken(String token){
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(
-                        preferenceManager.getString(Constants.KEY_USER_ID)
-                );
+    private void updateToken(String token) {
+        String userEmail = preferenceManager.getString(Constants.KEY_EMAIL);
 
-        documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener(unused -> showToast("Token updated successfully"))
-                .addOnFailureListener(e -> showToast("Unable to update token"));
+        if (userEmail != null) {
+            FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+            database.collection("users")
+                    .whereEqualTo("email", userEmail)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            String userId = queryDocumentSnapshots.getDocuments().get(0).getId();
+                            DocumentReference documentReference =
+                                    database.collection(Constants.KEY_COLLECTION_USERS).document(userId);
+                            preferenceManager.putString(Constants.KEY_USER_ID, userId);
+
+                            documentReference.update(Constants.KEY_FCM_TOKEN, token)
+                                    .addOnSuccessListener(unused -> showToast("Token updated successfully"))
+                                    .addOnFailureListener(e -> showToast("Unable to update token"));
+                        } else {
+                            showToast("User not found in Firestore");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        showToast("Error retrieving user: " + e.getMessage());
+                    });
+        } else {
+            showToast("User email not found in SharedPreferences");
+        }
     }
+
 }

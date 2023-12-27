@@ -21,11 +21,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
 
     FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     @Override
     public void onStart() {
@@ -53,6 +59,7 @@ public class Register extends AppCompatActivity {
 
         TextView TVLogin = findViewById(R.id.TVLogin);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         TVLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,36 +72,58 @@ public class Register extends AppCompatActivity {
         BtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email, password;
+                String username, email, password, phone;
+                username = String.valueOf(ETName.getText());
                 email = String.valueOf(ETEmail.getText());
                 password = String.valueOf(ETPassword.getText());
+                phone = String.valueOf(ETHpNumber.getText());
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this,"Enter email", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
 
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this,"Enter password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(),Home.class);
-                                    startActivity(intent);
-                                    finish();
+                                    // User registration successful
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        // Store additional user data in Firestore
+                                        Map<String, Object> userData = new HashMap<>();
+                                        userData.put("username", username);
+                                        userData.put("email", email);
+                                        userData.put("password", password);
+                                        userData.put("phone number",phone);
+                                        userData.put("role", "user");
 
+                                        DocumentReference userRef = db.collection("users").document(user.getUid());
+                                        userRef.set(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> firestoreTask) {
+                                                if (firestoreTask.isSuccessful()) {
+                                                    // Firestore data stored successfully
+                                                    Toast.makeText(Register.this, "Account created.", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    // Firestore data storage failed
+                                                    Toast.makeText(Register.this, "Firestore data storage failed.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
                                 } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
+                                    // User registration failed
+                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

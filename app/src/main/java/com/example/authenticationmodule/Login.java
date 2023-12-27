@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.authenticationmodule.utilities.Constants;
+import com.example.authenticationmodule.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private PreferenceManager preferenceManager;
 
     @Override
     public void onStart() {
@@ -51,6 +54,7 @@ public class Login extends AppCompatActivity {
         Button BtnSignIn = findViewById(R.id.BtnSignIn);
         TextView TVRegisterNow = findViewById(R.id.TVRegisterNow);
         mAuth = FirebaseAuth.getInstance();
+        preferenceManager = new PreferenceManager(getApplicationContext());
         TextView TVForgotPassword = findViewById(R.id.TVForgotPassword);
 
         TVRegisterNow.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +96,8 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    preferenceManager.putString(Constants.KEY_EMAIL, email);
+
                                     Toast.makeText(getApplicationContext(), "Login Successful.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(),Home.class);

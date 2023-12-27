@@ -33,12 +33,5 @@ public class CounsellingService extends AppCompatActivity {
                 startActivity(new Intent(CounsellingService.this, displayCounsellor.class));
             }
         });
-
-        btnCounsellor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 }

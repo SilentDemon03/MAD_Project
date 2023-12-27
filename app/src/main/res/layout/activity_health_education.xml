@@ -28,6 +28,24 @@
         android:layout_toRightOf="@+id/BtnBackEdu"
         android:textSize="25dp"
         android:textColor="@color/black"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="16dp"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id = "@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EducationTxt"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/searchview_outline"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id = "@+id/EducationRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

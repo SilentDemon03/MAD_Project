@@ -2,60 +2,57 @@ package com.example.authenticationmodule.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.authenticationmodule.databinding.ItemContainerUserBinding;
+import com.example.authenticationmodule.databinding.ItemContainerCounsellorBinding;
 import com.example.authenticationmodule.model.Counsellor;
-
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import java.util.List;
 
-public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.UserViewHolder>{
+public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.CounsellorViewHolder>{
 
-    private final List<Counsellor>users;
+    private final List<Counsellor>counsellors;
 
-    public CounsellorsAdapter(List<Counsellor>users){
-        this.users = users;
+    public CounsellorsAdapter(List<Counsellor>counsellors){
+        this.counsellors = counsellors;
     }
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(
+    public CounsellorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemContainerCounsellorBinding itemContainerCounsellorBinding = ItemContainerCounsellorBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false
         );
-        return new UserViewHolder(itemContainerUserBinding);
+        return new CounsellorViewHolder(itemContainerCounsellorBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        holder.setUserData(users.get(position));
+    public void onBindViewHolder(@NonNull CounsellorViewHolder holder, int position) {
+        holder.setUserData(counsellors.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return counsellors.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder{
+    class CounsellorViewHolder extends RecyclerView.ViewHolder{
 
-        ItemContainerUserBinding binding;
+        ItemContainerCounsellorBinding binding;
 
-        UserViewHolder(ItemContainerUserBinding itemContainerUserBinding){
+        CounsellorViewHolder(ItemContainerCounsellorBinding itemContainerUserBinding){
             super(itemContainerUserBinding.getRoot());
             binding = itemContainerUserBinding;
         }
 
-        void setUserData(Counsellor user){
-            binding.textName.setText(user.name);
-            binding.textEmail.setText(user.email);
-            binding.imageProfile.setImageBitmap(getUserImage(user.image));
+        void setUserData(Counsellor counsellor){
+            binding.textName.setText(counsellor.name);
+            binding.textEmail.setText(counsellor.email);
+            //binding.imageProfile.setImageBitmap(getUserImage(counsellor.image));
         }
     }
 
