@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import com.example.authenticationmodule.adapter.CounsellorsAdapter;
 import com.example.authenticationmodule.databinding.ActivitySelectCounsellorBinding;
+import com.example.authenticationmodule.listeners.CounsellorListener;
 import com.example.authenticationmodule.model.Counsellor;
 import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class selectCounsellorActivity extends AppCompatActivity {
+public class selectCounsellorActivity extends AppCompatActivity implements CounsellorListener {
 
     private ActivitySelectCounsellorBinding binding;
     private PreferenceManager preferenceManager;
@@ -59,10 +60,11 @@ public class selectCounsellorActivity extends AppCompatActivity {
                             counsellor.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                             counsellor.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             counsellor.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            counsellor.id = queryDocumentSnapshot.getId();
                             counsellors.add(counsellor);
                         }
                         if (counsellors.size() > 0) {
-                            CounsellorsAdapter counsellorsAdapter = new CounsellorsAdapter(counsellors);
+                            CounsellorsAdapter counsellorsAdapter = new CounsellorsAdapter(counsellors, this);
                             binding.counsellorsRecyclerView.setAdapter(counsellorsAdapter);
                             binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
                         } else {
@@ -86,5 +88,13 @@ public class selectCounsellorActivity extends AppCompatActivity {
         }else{
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onUserClicked(Counsellor counsellor) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, counsellor);
+        startActivity(intent);
+        finish();
     }
 }

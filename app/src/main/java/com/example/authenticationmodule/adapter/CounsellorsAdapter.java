@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.authenticationmodule.databinding.ItemContainerCounsellorBinding;
+import com.example.authenticationmodule.listeners.CounsellorListener;
 import com.example.authenticationmodule.model.Counsellor;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -14,9 +15,11 @@ import java.util.List;
 public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.CounsellorViewHolder>{
 
     private final List<Counsellor>counsellors;
+    private final CounsellorListener counsellorListener;
 
-    public CounsellorsAdapter(List<Counsellor>counsellors){
+    public CounsellorsAdapter(List<Counsellor>counsellors, CounsellorListener counsellorListener){
         this.counsellors = counsellors;
+        this.counsellorListener = counsellorListener;
     }
 
     @NonNull
@@ -29,16 +32,6 @@ public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.
         );
         return new CounsellorViewHolder(itemContainerCounsellorBinding);
     }
-//    public CounsellorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-//        // Inflate the view using the specific layout resource R.layout.my_custom_layout
-//        View view = inflater.inflate(R.layout.item_container_counsellor, parent, false);
-//
-//        // Now, use DataBindingUtil to bind the inflated view to your binding class
-//        ItemContainerCounsellorBinding itemContainerCounsellorBinding = ItemContainerCounsellorBinding.bind(view);
-//
-//        return new CounsellorViewHolder(itemContainerCounsellorBinding);
-//    }
 
     @Override
     public void onBindViewHolder(@NonNull CounsellorViewHolder holder, int position) {
@@ -63,6 +56,7 @@ public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.
             binding.textName.setText(counsellor.name);
             binding.textEmail.setText(counsellor.email);
             //binding.imageProfile.setImageBitmap(getUserImage(counsellor.image));
+            binding.getRoot().setOnClickListener(view -> counsellorListener.onUserClicked(counsellor));
         }
     }
 
