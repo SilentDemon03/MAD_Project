@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
 
@@ -36,6 +37,8 @@ public class Login extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
+            String userId = currentUser.getUid();
+            preferenceManager.putString(Constants.KEY_USER_ID, userId);
             Intent intent = new Intent(getApplicationContext(),Home.class);
             startActivity(intent);
             finish();

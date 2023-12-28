@@ -26,7 +26,7 @@ public class selectCounsellorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySelectCounsellorBinding.inflate(getLayoutInflater());
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.activity_select_counsellor);
+        setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
         getCounsellors();
@@ -57,7 +57,7 @@ public class selectCounsellorActivity extends AppCompatActivity {
                             Counsellor counsellor = new Counsellor();
                             counsellor.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                             counsellor.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
-                            //counsellor.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                            counsellor.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             counsellor.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             counsellors.add(counsellor);
                         }

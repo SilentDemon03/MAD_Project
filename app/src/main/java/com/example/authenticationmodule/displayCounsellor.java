@@ -33,6 +33,8 @@ public class displayCounsellor extends AppCompatActivity {
     private void setListeners(){
         binding.fabNewChat.setOnClickListener(view ->
                 startActivity(new Intent(getApplicationContext(), selectCounsellorActivity.class)));
+        binding.imageBack.setOnClickListener(view ->
+                startActivity(new Intent(getApplicationContext(), CounsellingService.class)));
     }
 
     private void showToast(String message){

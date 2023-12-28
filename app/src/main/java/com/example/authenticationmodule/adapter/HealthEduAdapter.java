@@ -33,7 +33,7 @@ public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.View
         EduData eduDataList = eduData[position];
         holder.name.setText(eduDataList.getName());
         holder.course.setText(eduDataList.getTitle());
-        holder.marketDesc.setText(eduDataList.getDesc());
+        holder.desc.setText(eduDataList.getDesc());
         holder.cardImage.setImageResource(eduDataList.getImageUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,13 +51,13 @@ public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView name, course, marketDesc;
+        private TextView name, course, desc;
         private ImageView cardImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             course = itemView.findViewById(R.id.course);
-            marketDesc = itemView.findViewById(R.id.marketDesc);
+            desc = itemView.findViewById(R.id.description);
             cardImage = itemView.findViewById(R.id.imageView);
         }
     }
