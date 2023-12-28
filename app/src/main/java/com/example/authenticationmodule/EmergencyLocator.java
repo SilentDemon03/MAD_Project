@@ -74,7 +74,7 @@ public class EmergencyLocator extends AppCompatActivity implements OnMapReadyCal
         SPCategory = findViewById(R.id.SPCategory);
         BtnFind = findViewById(R.id.BtnFind);
 
-        String[] placeCategory = {"Restaurant","School", "Hospital", "University"};
+        String[] placeCategory = {"Police", "Hospital", };
         SPCategory.setAdapter(new ArrayAdapter<>(EmergencyLocator.this,
                 android.R.layout.simple_spinner_dropdown_item, placeCategory));
 
@@ -193,7 +193,7 @@ public class EmergencyLocator extends AppCompatActivity implements OnMapReadyCal
 
     private void gotoLocation(double latitude, double longitude) {
         LatLng latLng = new LatLng(latitude,longitude);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,18);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,13);
         mGoogleMap.moveCamera(cameraUpdate);
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
