@@ -29,6 +29,16 @@ public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.
         );
         return new CounsellorViewHolder(itemContainerCounsellorBinding);
     }
+//    public CounsellorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+//        // Inflate the view using the specific layout resource R.layout.my_custom_layout
+//        View view = inflater.inflate(R.layout.item_container_counsellor, parent, false);
+//
+//        // Now, use DataBindingUtil to bind the inflated view to your binding class
+//        ItemContainerCounsellorBinding itemContainerCounsellorBinding = ItemContainerCounsellorBinding.bind(view);
+//
+//        return new CounsellorViewHolder(itemContainerCounsellorBinding);
+//    }
 
     @Override
     public void onBindViewHolder(@NonNull CounsellorViewHolder holder, int position) {
