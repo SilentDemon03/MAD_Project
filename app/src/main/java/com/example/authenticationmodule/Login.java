@@ -25,12 +25,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private PreferenceManager preferenceManager;
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
 
     @Override
     public void onStart() {
@@ -38,7 +41,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             String userId = currentUser.getUid();
-            preferenceManager.putString(Constants.KEY_USER_ID, userId);
+            //preferenceManager.putString(Constants.KEY_USER_ID, userId);
             Intent intent = new Intent(getApplicationContext(),Home.class);
             startActivity(intent);
             finish();
@@ -100,6 +103,17 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     preferenceManager.putString(Constants.KEY_EMAIL, email);
+                                    database.collection(Constants.KEY_COLLECTION_USERS)
+                                            .whereEqualTo(Constants.KEY_EMAIL,email)
+                                            .get()
+                                            .addOnCompleteListener(task1 -> {
+                                                if(task1.isSuccessful() && task1.getResult().getDocuments().size()>0){
+                                                    DocumentSnapshot documentSnapshot = task1.getResult().getDocuments().get(0);
+                                                    preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
+                                                    preferenceManager.putString(Constants.KEY_NAME,documentSnapshot.getString(Constants.KEY_NAME));
+                                                    preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                                                }
+                                            });
 
                                     Toast.makeText(getApplicationContext(), "Login Successful.",
                                             Toast.LENGTH_SHORT).show();

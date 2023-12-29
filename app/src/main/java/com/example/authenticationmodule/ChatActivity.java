@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(
                 chatMessages,
-                null,
+               null,
                 //getBitmapFromEncodedString(receiverCounsellor.image),
                 preferenceManager.getString(Constants.KEY_USER_ID)
         );
