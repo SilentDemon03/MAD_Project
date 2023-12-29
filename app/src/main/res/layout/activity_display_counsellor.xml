@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Counsellors"
+        android:text="Recent conversation"
         android:textColor="@color/white"
         android:textSize="24dp"
         android:textStyle="bold"
@@ -41,14 +41,23 @@
         app:layout_constraintTop_toBottomOf="@id/imageBack">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id = "@+id/recycler_view"
-            android:layout_marginTop="30dp"
+            android:id = "@+id/conversationRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:padding="20dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity = "center"/>
 
     </FrameLayout>
 
