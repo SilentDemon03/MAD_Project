@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.authenticationmodule.adapter.RecentConversationsAdapter;
-import com.example.authenticationmodule.databinding.ActivityDisplayCounsellorBinding;
+import com.example.authenticationmodule.databinding.ActivityRecentConversationBinding;
 import com.example.authenticationmodule.model.ChatMessage;
 import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class displayCounsellor extends AppCompatActivity {
+public class recentConversation extends AppCompatActivity {
 
-    private ActivityDisplayCounsellorBinding binding;
+    private ActivityRecentConversationBinding binding;
     private PreferenceManager preferenceManager;
     private List<ChatMessage> conversations;
     private RecentConversationsAdapter conversationsAdapter;
@@ -36,7 +36,7 @@ public class displayCounsellor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        binding = ActivityDisplayCounsellorBinding.inflate(getLayoutInflater());
+        binding = ActivityRecentConversationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         init();

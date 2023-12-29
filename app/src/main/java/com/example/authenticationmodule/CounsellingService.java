@@ -30,7 +30,7 @@ public class CounsellingService extends AppCompatActivity {
         btnPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CounsellingService.this, displayCounsellor.class));
+                startActivity(new Intent(CounsellingService.this, recentConversation.class));
             }
         });
     }

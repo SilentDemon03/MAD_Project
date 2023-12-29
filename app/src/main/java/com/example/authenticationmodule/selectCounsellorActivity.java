@@ -34,7 +34,7 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
 
     private void setListeners(){
         binding.imageBack.setOnClickListener(view ->
-                startActivity(new Intent(getApplicationContext(), displayCounsellor.class)));
+                startActivity(new Intent(getApplicationContext(), recentConversation.class)));
     }
 
     private void getCounsellors() {
