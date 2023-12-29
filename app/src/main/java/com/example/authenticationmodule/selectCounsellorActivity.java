@@ -3,7 +3,6 @@ package com.example.authenticationmodule;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import com.example.authenticationmodule.adapter.CounsellorsAdapter;
 import com.example.authenticationmodule.databinding.ActivitySelectCounsellorBinding;
@@ -54,7 +53,6 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                             if (currentUserId.equals(queryDocumentSnapshot.getId())) {
                                 continue;
                             }
-
                             Counsellor counsellor = new Counsellor();
                             counsellor.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                             counsellor.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
