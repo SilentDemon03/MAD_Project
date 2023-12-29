@@ -43,7 +43,7 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS)
-                .whereEqualTo("role", "counsellor")
+                //.whereEqualTo("role", "counsellor")
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
