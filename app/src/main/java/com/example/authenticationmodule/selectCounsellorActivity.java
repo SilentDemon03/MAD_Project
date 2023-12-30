@@ -1,5 +1,6 @@
 package com.example.authenticationmodule;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,11 @@ import com.example.authenticationmodule.model.Counsellor;
 import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -70,26 +76,42 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                     Counsellor user = new Counsellor();
                     user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                     user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
-                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                     user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                     user.id = queryDocumentSnapshot.getId();
+
+                    // Retrieve the image URL from the Realtime Database
+                    DatabaseReference imageRef = FirebaseDatabase.getInstance("https://authenticationmodule-bebd2-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                            .getReference("users")
+                            .child(user.id)
+                            .child("image");
+
+                    imageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String imageUrl = dataSnapshot.getValue(String.class);
+                                user.image = imageUrl; // Set the image URL
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle errors here
+                        }
+                    });
                     users.add(user);
                 }
+
                 if (users.size() > 0) {
-                    CounsellorsAdapter usersAdapter = new CounsellorsAdapter(users, this);
+                    CounsellorsAdapter usersAdapter = new CounsellorsAdapter(users, selectCounsellorActivity.this);
                     binding.counsellorsRecyclerView.setAdapter(usersAdapter);
                     binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
                 } else {
                     showErrorMessage();
                 }
-            } else {
-                showErrorMessage();
             }
         });
     }
-
-
-
 
     private void showErrorMessage(){
         binding.textErrorMessage.setText(String.format("%s", "No user available"));

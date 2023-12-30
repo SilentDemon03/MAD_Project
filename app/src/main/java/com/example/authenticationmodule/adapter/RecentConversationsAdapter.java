@@ -9,12 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.authenticationmodule.databinding.ItemContainerRecentConversationBinding;
 import com.example.authenticationmodule.listeners.ConversionListener;
 import com.example.authenticationmodule.model.ChatMessage;
 import com.example.authenticationmodule.model.Counsellor;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 
@@ -60,6 +59,9 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
 
         void setData(ChatMessage chatMessage){
             //binding.imageProfile.setImageBitmap(getConversionImage(chatMessage.conversionImage));
+            Glide.with(binding.imageProfile.getContext())
+                    .load(chatMessage.conversionImage) // Assuming this is a URL
+                    .into(binding.imageProfile);
             binding.textName.setText(chatMessage.conversionName);
             binding.textRecentMessage.setText(chatMessage.message);
             binding.getRoot().setOnClickListener(view -> {
@@ -72,8 +74,8 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
         }
     }
 
-    private Bitmap getConversionImage(String encodedImage){
-        byte[]bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-    }
+//    private Bitmap getConversionImage(String encodedImage){
+//        byte[]bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+//        return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+//    }
 }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.authenticationmodule.databinding.ItemContainerReceivedMessageBinding;
 import com.example.authenticationmodule.databinding.ItemContainerSentMessageBinding;
 import com.example.authenticationmodule.model.ChatMessage;
@@ -14,12 +16,19 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final List<ChatMessage> chatMessages;
-    private final Bitmap receiverProfileImage;
+   // private final Bitmap receiverProfileImage;
     private final String senderId;
+    private final String receiverProfileImage;
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
 
-    public ChatAdapter(List<ChatMessage> chatMessages, Bitmap receiverProfileImage, String senderId) {
+//    public ChatAdapter(List<ChatMessage> chatMessages, Bitmap receiverProfileImage, String senderId) {
+//        this.chatMessages = chatMessages;
+//        this.receiverProfileImage = receiverProfileImage;
+//        this.senderId = senderId;
+//    }
+
+    public ChatAdapter(List<ChatMessage> chatMessages, String receiverProfileImage, String senderId) {
         this.chatMessages = chatMessages;
         this.receiverProfileImage = receiverProfileImage;
         this.senderId = senderId;
@@ -93,10 +102,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             binding = itemContainerReceivedMessageBinding;
         }
 
-        void setData(ChatMessage chatMessage, Bitmap receiverProfileImage){
+        void setData(ChatMessage chatMessage, String receiverProfileImageUrl){
             binding.textMessage.setText(chatMessage.message);
             binding.textDateTime.setText(chatMessage.dateTime);
-            binding.imageProfile.setImageBitmap(receiverProfileImage);
+            // Use Glide to load the image from the URL
+            Glide.with(binding.imageProfile.getContext())
+                    .load(receiverProfileImageUrl)
+                    //.circleCrop() // if you want to apply some styling like rounding the image
+                    .into(binding.imageProfile);
         }
+
+//        void setData(ChatMessage chatMessage, Bitmap receiverProfileImage){
+//            binding.textMessage.setText(chatMessage.message);
+//            binding.textDateTime.setText(chatMessage.dateTime);
+//            binding.imageProfile.setImageBitmap(receiverProfileImage);
+//        }
     }
 }

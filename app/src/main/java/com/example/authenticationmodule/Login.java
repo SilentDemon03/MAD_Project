@@ -7,14 +7,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +21,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private PreferenceManager preferenceManager;
     FirebaseFirestore database = FirebaseFirestore.getInstance();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://authenticationmodule-bebd2-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    DatabaseReference databaseReference = firebaseDatabase.getReference("users");
 
     @Override
     public void onStart() {
@@ -89,12 +95,12 @@ public class Login extends AppCompatActivity {
                 email = String.valueOf(ETLoginEmail.getText());
                 password = String.valueOf(ETLoginPassword.getText());
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Login.this,"Enter email", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Login.this,"Enter password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -104,33 +110,73 @@ public class Login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     preferenceManager.putString(Constants.KEY_EMAIL, email);
                                     database.collection(Constants.KEY_COLLECTION_USERS)
-                                            .whereEqualTo(Constants.KEY_EMAIL,email)
+                                            .whereEqualTo(Constants.KEY_EMAIL, email)
                                             .get()
                                             .addOnCompleteListener(task1 -> {
-                                                if(task1.isSuccessful() && task1.getResult().getDocuments().size()>0){
+                                                if (task1.isSuccessful() && task1.getResult().getDocuments().size() > 0) {
                                                     DocumentSnapshot documentSnapshot = task1.getResult().getDocuments().get(0);
                                                     preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
-                                                    preferenceManager.putString(Constants.KEY_NAME,documentSnapshot.getString(Constants.KEY_NAME));
-                                                    preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                                                    preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
                                                     preferenceManager.putString(Constants.KEY_ROLE, documentSnapshot.getString(Constants.KEY_ROLE));
+
+//                                                    DatabaseReference imageRef = FirebaseDatabase.getInstance().getReference("users").child(Constants.KEY_USER_ID).child("image");
+//                                                    imageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                        @Override
+//                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                                            if (dataSnapshot.exists()) {
+//                                                                String imageUrl = dataSnapshot.getValue(String.class);
+//                                                                preferenceManager.putString(Constants.KEY_IMAGE, imageUrl);
+//                                                            }
+//                                                        }
+//
+//                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                                            Toast.makeText(Login.this, "Failed to retrieve image.", Toast.LENGTH_SHORT).show();
+//                                                        }
+//                                                    });
+                                                    Query query = databaseReference.child(Constants.KEY_IMAGE);
+
+                                                    query.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (dataSnapshot.exists()) {
+                                                                String image = dataSnapshot.getValue(String.class);
+                                                                System.out.println("Image link retrieved: " + image);
+
+                                                                try {
+                                                                    preferenceManager.putString(Constants.KEY_IMAGE, image);
+                                                                } catch (Exception e) {
+                                                                    // Handle any exceptions here
+                                                                }
+                                                            } else {
+                                                                // Handle the case where the data doesn't exist
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            // Handle errors here
+                                                        }
+                                                    });
+
+
+                                                    Toast.makeText(getApplicationContext(), "Login Successful.",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                                                    startActivity(intent);
+                                                    finish();
+
+                                                } else {
+                                                    // If sign in fails, display a message to the user.
+                                                    Toast.makeText(Login.this, "Authentication failed.",
+                                                            Toast.LENGTH_SHORT).show();
+
                                                 }
                                             });
-
-                                    Toast.makeText(getApplicationContext(), "Login Successful.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(),Home.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
                                 }
                             }
                         });
             }
         });
     }
+
 }

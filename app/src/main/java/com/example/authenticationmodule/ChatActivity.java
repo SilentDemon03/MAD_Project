@@ -56,8 +56,8 @@ public class ChatActivity extends AppCompatActivity {
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(
                 chatMessages,
-               null,
-                //getBitmapFromEncodedString(receiverCounsellor.image),
+               //null,
+                receiverCounsellor.image,
                 preferenceManager.getString(Constants.KEY_USER_ID)
         );
         binding.chatRecyclerView.setAdapter(chatAdapter);
@@ -77,12 +77,12 @@ public class ChatActivity extends AppCompatActivity {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            conversion.put(Constants.KEY_SENDER_IMAGE, null);
-            //conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            //conversion.put(Constants.KEY_SENDER_IMAGE, null);
+            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             conversion.put(Constants.KEY_RECEIVER_ID,receiverCounsellor.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverCounsellor.name);
-            conversion.put(Constants.KEY_RECEIVER_IMAGE, null);
-            //conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverCounsellor.image);
+            //conversion.put(Constants.KEY_RECEIVER_IMAGE, null);
+            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverCounsellor.image);
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
@@ -134,10 +134,10 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-    private Bitmap getBitmapFromEncodedString(String encodedImage){
-        byte[]bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
-    }
+//    private Bitmap getBitmapFromEncodedString(String encodedImage){
+//        byte[]bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+//        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+//    }
 
     private void loadReceiverDetails(){
         receiverCounsellor = (Counsellor) getIntent().getSerializableExtra(Constants.KEY_USER);
