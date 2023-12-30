@@ -40,12 +40,42 @@
         android:layout_marginEnd="30dp"
         android:background="@drawable/searchview_outline"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id = "@+id/EducationRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchView"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/searchView">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id = "@+id/EducationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/searchView"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:overScrollMode="never"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/textErrorMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:textColor="@color/design_default_color_error"
+            android:textSize="12dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 </RelativeLayout>

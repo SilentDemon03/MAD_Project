@@ -1,64 +1,61 @@
 package com.example.authenticationmodule.adapter;
 
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.example.authenticationmodule.EduData;
-import com.example.authenticationmodule.R;
 
-public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.ViewHolder> {
+import com.bumptech.glide.Glide;
+import com.example.authenticationmodule.databinding.ItemContainerEduDataBinding;
+import com.example.authenticationmodule.model.EduData;
 
-    EduData[]eduData;
-    Context context;
+import java.util.List;
 
-    public HealthEduAdapter(EduData[] eduData, Context context){
-        this.eduData = eduData;
-        this.context = context;
+public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.EduDataViewHolder> {
+
+    private final List<EduData>eduDataList;
+
+    public HealthEduAdapter(List<EduData>eduDataList){
+        this.eduDataList = eduDataList;
     }
+
     @NonNull
     @Override
-    public HealthEduAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.health_edu_list, parent, false);
-        return new ViewHolder(view);
+    public EduDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemContainerEduDataBinding itemContainerEduDataBinding = ItemContainerEduDataBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false
+        );
+
+        return new EduDataViewHolder(itemContainerEduDataBinding);
     }
 
-    public void onBindViewHolder(@NonNull HealthEduAdapter.ViewHolder holder, int position) {
-        EduData eduDataList = eduData[position];
-        holder.name.setText(eduDataList.getName());
-        holder.course.setText(eduDataList.getTitle());
-        holder.desc.setText(eduDataList.getDesc());
-        holder.cardImage.setImageResource(eduDataList.getImageUrl());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, eduDataList.getName()+" Selected", Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void onBindViewHolder(@NonNull EduDataViewHolder holder, int position) {
+        holder.setData(eduDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return eduData.length;
+        return eduDataList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class EduDataViewHolder extends RecyclerView.ViewHolder{
+        ItemContainerEduDataBinding binding;
 
-        private TextView name, course, desc;
-        private ImageView cardImage;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            name = itemView.findViewById(R.id.name);
-            course = itemView.findViewById(R.id.course);
-            desc = itemView.findViewById(R.id.description);
-            cardImage = itemView.findViewById(R.id.imageView);
+        EduDataViewHolder(ItemContainerEduDataBinding itemContainerEduDataBinding){
+            super(itemContainerEduDataBinding.getRoot());
+            binding = itemContainerEduDataBinding;
+        }
+
+        void setData(EduData eduData){
+            Glide.with(binding.imageView.getContext())
+                    .load(eduData.imageUrl)
+                    .into(binding.imageView);
+            binding.authorName.setText(eduData.name);
+            binding.healthEducationTitle.setText(eduData.title);
         }
     }
 
