@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.authenticationmodule.adapter.CounsellorsAdapter;
 import com.example.authenticationmodule.databinding.ActivitySelectCounsellorBinding;
 import com.example.authenticationmodule.listeners.CounsellorListener;
@@ -63,12 +65,14 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                     .whereNotEqualTo("role", "counsellor");
         }
 
+        // Initialize the users list outside of the query
+        List<Counsellor> users = new ArrayList<>();
+
         // Execute the query
         query.get().addOnCompleteListener(task -> {
             loading(false);
             String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
             if (task.isSuccessful() && task.getResult() != null) {
-                List<Counsellor> users = new ArrayList<>();
                 for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                     if (currentUserId.equals(queryDocumentSnapshot.getId())) {
                         continue;
@@ -91,6 +95,20 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                             if (dataSnapshot.exists()) {
                                 String imageUrl = dataSnapshot.getValue(String.class);
                                 user.image = imageUrl; // Set the image URL
+
+                                // Add the user to the list after retrieving the image URL
+                                users.add(user);
+
+                                // Check if all users have been added, then update the RecyclerView
+                                if (users.size() == task.getResult().size() - 1) {
+                                    if (users.size() > 0) {
+                                        CounsellorsAdapter usersAdapter = new CounsellorsAdapter(users, selectCounsellorActivity.this);
+                                        binding.counsellorsRecyclerView.setAdapter(usersAdapter);
+                                        binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
+                                    } else {
+                                        showErrorMessage();
+                                    }
+                                }
                             }
                         }
 
@@ -99,19 +117,13 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                             // Handle errors here
                         }
                     });
-                    users.add(user);
-                }
-
-                if (users.size() > 0) {
-                    CounsellorsAdapter usersAdapter = new CounsellorsAdapter(users, selectCounsellorActivity.this);
-                    binding.counsellorsRecyclerView.setAdapter(usersAdapter);
-                    binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    showErrorMessage();
                 }
             }
         });
     }
+
+
+
 
     private void showErrorMessage(){
         binding.textErrorMessage.setText(String.format("%s", "No user available"));

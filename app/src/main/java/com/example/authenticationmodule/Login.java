@@ -57,7 +57,6 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
@@ -133,7 +132,7 @@ public class Login extends AppCompatActivity {
 //                                                            Toast.makeText(Login.this, "Failed to retrieve image.", Toast.LENGTH_SHORT).show();
 //                                                        }
 //                                                    });
-                                                    Query query = databaseReference.child(Constants.KEY_IMAGE);
+                                                    Query query = databaseReference.child("image");
 
                                                     query.addValueEventListener(new ValueEventListener() {
                                                         @Override
@@ -169,7 +168,6 @@ public class Login extends AppCompatActivity {
                                                     // If sign in fails, display a message to the user.
                                                     Toast.makeText(Login.this, "Authentication failed.",
                                                             Toast.LENGTH_SHORT).show();
-
                                                 }
                                             });
                                 }
