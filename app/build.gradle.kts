@@ -58,4 +58,6 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation ("com.makeramen:roundedimageview:2.3.0")
     implementation ("androidx.preference:preference:1.1.1")
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
 }

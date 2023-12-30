@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,12 +26,11 @@ public class Home extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser == null){
-            Intent intent = new Intent(getApplication(),Login.class);
+        if (currentUser == null) {
+            Intent intent = new Intent(getApplication(), Login.class);
             startActivity(intent);
             finish();
-        }
-        else {
+        } else {
             TVWelcome.setText(currentUser.getEmail());
         }
 
@@ -41,7 +38,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent (getApplicationContext(),Login.class);
+                Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
                 finish();
             }

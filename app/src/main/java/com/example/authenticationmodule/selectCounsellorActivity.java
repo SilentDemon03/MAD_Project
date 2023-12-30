@@ -12,6 +12,7 @@ import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
-        getCounsellors();
+        getUsers();
     }
 
     private void setListeners(){
@@ -37,42 +38,57 @@ public class selectCounsellorActivity extends AppCompatActivity implements Couns
                 startActivity(new Intent(getApplicationContext(), recentConversation.class)));
     }
 
-    private void getCounsellors() {
-
+    private void getUsers() {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                //.whereEqualTo("role", "counsellor")
-                .get()
-                .addOnCompleteListener(task -> {
-                    loading(false);
-                    String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        List<Counsellor> counsellors = new ArrayList<>();
-                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                            if (currentUserId.equals(queryDocumentSnapshot.getId())) {
-                                continue;
-                            }
-                            Counsellor counsellor = new Counsellor();
-                            counsellor.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            counsellor.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
-                            counsellor.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            counsellor.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            counsellor.id = queryDocumentSnapshot.getId();
-                            counsellors.add(counsellor);
-                        }
-                        if (counsellors.size() > 0) {
-                            CounsellorsAdapter counsellorsAdapter = new CounsellorsAdapter(counsellors, this);
-                            binding.counsellorsRecyclerView.setAdapter(counsellorsAdapter);
-                            binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
-                        } else {
-                            showErrorMessage();
-                        }
-                    } else {
-                        showErrorMessage();
+
+        // Retrieve user role from PreferenceManager
+        String userRole = preferenceManager.getString(Constants.KEY_ROLE);
+
+        // Prepare your query based on the user role
+        Query query;
+        if ("user".equals(userRole)) {
+            // If the role is 'user', fetch 'counsellor' list
+            query = database.collection(Constants.KEY_COLLECTION_USERS)
+                    .whereEqualTo("role", "counsellor");
+        } else {
+            // If the role is 'counsellor', fetch 'user' list
+            query = database.collection(Constants.KEY_COLLECTION_USERS)
+                    .whereNotEqualTo("role", "counsellor");
+        }
+
+        // Execute the query
+        query.get().addOnCompleteListener(task -> {
+            loading(false);
+            String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<Counsellor> users = new ArrayList<>();
+                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                    if (currentUserId.equals(queryDocumentSnapshot.getId())) {
+                        continue;
                     }
-                });
+                    Counsellor user = new Counsellor();
+                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                    user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
+                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                    user.id = queryDocumentSnapshot.getId();
+                    users.add(user);
+                }
+                if (users.size() > 0) {
+                    CounsellorsAdapter usersAdapter = new CounsellorsAdapter(users, this);
+                    binding.counsellorsRecyclerView.setAdapter(usersAdapter);
+                    binding.counsellorsRecyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    showErrorMessage();
+                }
+            } else {
+                showErrorMessage();
+            }
+        });
     }
+
+
 
 
     private void showErrorMessage(){

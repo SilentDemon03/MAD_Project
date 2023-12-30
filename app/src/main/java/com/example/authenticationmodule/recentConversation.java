@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.example.authenticationmodule.adapter.RecentConversationsAdapter;
 import com.example.authenticationmodule.databinding.ActivityRecentConversationBinding;
+import com.example.authenticationmodule.listeners.ConversionListener;
 import com.example.authenticationmodule.model.ChatMessage;
+import com.example.authenticationmodule.model.Counsellor;
 import com.example.authenticationmodule.utilities.Constants;
 import com.example.authenticationmodule.utilities.PreferenceManager;
 import com.google.firebase.FirebaseApp;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class recentConversation extends AppCompatActivity {
+public class recentConversation extends AppCompatActivity implements ConversionListener {
 
     private ActivityRecentConversationBinding binding;
     private PreferenceManager preferenceManager;
@@ -47,7 +49,7 @@ public class recentConversation extends AppCompatActivity {
 
     private void init(){
         conversations = new ArrayList<>();
-        conversationsAdapter = new RecentConversationsAdapter(conversations);
+        conversationsAdapter = new RecentConversationsAdapter(conversations, this);
         binding.conversationRecyclerView.setAdapter(conversationsAdapter);
         database = FirebaseFirestore.getInstance();
     }
@@ -151,6 +153,12 @@ public class recentConversation extends AppCompatActivity {
         } else {
             showToast("User email not found in SharedPreferences");
         }
+    }
+
+    public void onConversionClicked(Counsellor counsellor){
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, counsellor);
+        startActivity(intent);
     }
 
 }

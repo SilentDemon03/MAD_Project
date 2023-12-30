@@ -41,15 +41,15 @@ public class HealthEducation extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        EduData[] eduData = new EduData[]{
-//                new EduData("test1", "test1", "test1", R.drawable.ic_launcher_background),
-//                new EduData("test2", "test2", "test2", R.drawable.ic_launcher_background),
-//                new EduData("test3", "test3", "test3", R.drawable.ic_launcher_background)
-//
-//        };
+        EduData[] eduData = new EduData[]{
+                new EduData("test1", "test1", "test1", R.drawable.ic_launcher_background),
+                new EduData("test2", "test2", "test2", R.drawable.ic_launcher_background),
+                new EduData("test3", "test3", "test3", R.drawable.ic_launcher_background)
 
-        //adapter = new HealthEduAdapter(eduData,this );
-        //recyclerView.setAdapter(adapter);
+        };
+
+        adapter = new HealthEduAdapter(eduData,this );
+        recyclerView.setAdapter(adapter);
     }
 
     private void showToast(String message){

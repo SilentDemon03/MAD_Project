@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 public class CounsellingService extends AppCompatActivity {
 
     ImageButton btnBackFromCounselling;
-    Button btnPatient, btnCounsellor;
+    Button btnPatient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +19,7 @@ public class CounsellingService extends AppCompatActivity {
 
         btnBackFromCounselling = findViewById(R.id.BtnBackFromCounselling);
         btnPatient = findViewById(R.id.BtnPatient);
-        btnCounsellor = findViewById(R.id.BtnCounsellor);
+
         btnBackFromCounselling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
