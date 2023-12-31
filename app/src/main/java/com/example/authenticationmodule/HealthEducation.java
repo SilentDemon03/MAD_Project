@@ -1,12 +1,15 @@
 package com.example.authenticationmodule;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.authenticationmodule.adapter.HealthEduAdapter;
 import com.example.authenticationmodule.databinding.ActivityHealthEducationBinding;
+import com.example.authenticationmodule.listeners.HealthEducationListener;
 import com.example.authenticationmodule.model.EduData;
 import com.example.authenticationmodule.utilities.Constants;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,13 +57,20 @@ public class HealthEducation extends AppCompatActivity {
                             eduData.imageUrl = queryDocumentSnapshot.getString("image");
                             eduData.name = queryDocumentSnapshot.getString("author");
                             eduData.title = queryDocumentSnapshot.getString("title");
+                            eduData.url = queryDocumentSnapshot.getString("url");
                             eduDataList.add(eduData);
-                            System.out.println("Author" + eduData.name);
                         }
 
                         if(eduDataList.size()>0){
-                            System.out.println(eduDataList.size());
-                            HealthEduAdapter healthEduAdapter = new HealthEduAdapter(eduDataList);
+                            HealthEduAdapter healthEduAdapter = new HealthEduAdapter(eduDataList, new HealthEducationListener() {
+                                @Override
+                                public void onItemClicked(EduData eduData) {
+                                    // Handle item click here
+                                    Intent intent = new Intent(getApplicationContext(), webPage.class);
+                                    intent.putExtra("url", eduData.url);
+                                    startActivity(intent);
+                                }
+                            });
                             binding.EducationRecyclerView.setAdapter(healthEduAdapter);
                             binding.EducationRecyclerView.setVisibility(View.VISIBLE);
                         }else{
@@ -75,13 +85,11 @@ public class HealthEducation extends AppCompatActivity {
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 
-    private void loading(Boolean isLoading){
-        if(isLoading){
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
             binding.progressBar.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
-
 }

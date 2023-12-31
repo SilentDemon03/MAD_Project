@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.authenticationmodule.databinding.ItemContainerEduDataBinding;
+import com.example.authenticationmodule.listeners.HealthEducationListener;
 import com.example.authenticationmodule.model.EduData;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.EduDataViewHolder> {
 
     private final List<EduData>eduDataList;
+    private final HealthEducationListener healthEducationListener;
 
-    public HealthEduAdapter(List<EduData>eduDataList){
+    public HealthEduAdapter(List<EduData>eduDataList, HealthEducationListener healthEducationListener){
         this.eduDataList = eduDataList;
+        this.healthEducationListener = healthEducationListener;
     }
 
     @NonNull
@@ -56,6 +59,7 @@ public class HealthEduAdapter extends RecyclerView.Adapter<HealthEduAdapter.EduD
                     .into(binding.imageView);
             binding.authorName.setText(eduData.name);
             binding.healthEducationTitle.setText(eduData.title);
+            binding.getRoot().setOnClickListener(view -> healthEducationListener.onItemClicked(eduData));
         }
     }
 
