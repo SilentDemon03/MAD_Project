@@ -1,7 +1,5 @@
 package com.example.authenticationmodule.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,7 +7,6 @@ import com.bumptech.glide.Glide;
 import com.example.authenticationmodule.databinding.ItemContainerCounsellorBinding;
 import com.example.authenticationmodule.listeners.CounsellorListener;
 import com.example.authenticationmodule.model.Counsellor;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import java.util.List;
@@ -57,16 +54,10 @@ public class CounsellorsAdapter extends RecyclerView.Adapter<CounsellorsAdapter.
         void setUserData(Counsellor counsellor){
             binding.textName.setText(counsellor.name);
             binding.textEmail.setText(counsellor.email);
-            // binding.imageProfile.setImageBitmap(getUserImage(counsellor.image));
             Glide.with(binding.imageProfile.getContext())
                     .load(counsellor.image)
                     .into(binding.imageProfile);
             binding.getRoot().setOnClickListener(view -> counsellorListener.onUserClicked(counsellor));
         }
     }
-
-//    private Bitmap getUserImage(String encodedImage){
-//        byte[]bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-//        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
-//    }
 }
