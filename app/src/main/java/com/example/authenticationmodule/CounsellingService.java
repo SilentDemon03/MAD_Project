@@ -23,7 +23,8 @@ public class CounsellingService extends AppCompatActivity {
         btnBackFromCounselling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CounsellingService.this, HealthHome.class));
+                onBackPressed();
+                //startActivity(new Intent(CounsellingService.this, HealthHome.class));
             }
         });
 

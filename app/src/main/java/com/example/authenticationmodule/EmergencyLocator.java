@@ -94,7 +94,8 @@ public class EmergencyLocator extends AppCompatActivity implements OnMapReadyCal
         BtnBackEmergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EmergencyLocator.this, HealthHome.class));
+                onBackPressed();
+                //startActivity(new Intent(EmergencyLocator.this, HealthHome.class));
             }
         });
 
