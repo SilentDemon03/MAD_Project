@@ -1,10 +1,6 @@
 package com.example.authenticationmodule;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +8,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.authenticationmodule.databinding.ActivityHealthHomeBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
 public class HealthHome extends AppCompatActivity {
 
-    MaterialButton BtnChat, BtnCounselling, BtnEducation, BtnEmergency;
+    MaterialButton BtnChat, BtnCounselling, BtnEducation, BtnEmergency, BtnEducation2;
     Button BtnBack;
 
     private ActivityHealthHomeBinding binding;
@@ -33,6 +28,7 @@ public class HealthHome extends AppCompatActivity {
         BtnEducation = findViewById(R.id.btn_health_education);
         BtnEmergency = findViewById(R.id.btn_emergency_locator);
         BtnBack = findViewById(R.id.backBtntoHome);
+        BtnEducation2 = findViewById(R.id.btn_health_education_2);
 
         BtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +64,14 @@ public class HealthHome extends AppCompatActivity {
                 startActivity(new Intent(HealthHome.this, EmergencyLocator.class));
             }
         });
+
+        BtnEducation2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HealthHome.this, HealthEducation.class));
+            }
+        });
+
 
         binding.articlecardview1.setOnClickListener(new View.OnClickListener() {
             @Override
