@@ -1,6 +1,7 @@
 package com.example.authenticationmodule;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ public class HealthEducation extends AppCompatActivity {
 
     private ActivityHealthEducationBinding binding;
 
+    List<EduData> eduDataList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,20 @@ public class HealthEducation extends AppCompatActivity {
         setContentView(binding.getRoot());
         setListeners();
         getEduData();
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterData(newText);
+                return true;
+            }
+        });
+
     }
 
     private void setListeners(){
@@ -43,8 +60,6 @@ public class HealthEducation extends AppCompatActivity {
 
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        List<EduData> eduDataList = new ArrayList<>();
 
         database.collection(Constants.KEY_COLLECTION_HEALTH_EDUCATION)
                 .get()
@@ -79,6 +94,28 @@ public class HealthEducation extends AppCompatActivity {
                     }
                 });
     }
+
+    private void filterData(String query) {
+        List<EduData> filteredList = new ArrayList<>();
+        for (EduData eduData : eduDataList) {
+            if (eduData.title.toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(eduData);
+            }
+        }
+
+        // Update the RecyclerView with the filtered list
+        HealthEduAdapter healthEduAdapter = new HealthEduAdapter(filteredList, new HealthEducationListener() {
+            @Override
+            public void onItemClicked(EduData eduData) {
+                // Handle item click here
+                Intent intent = new Intent(getApplicationContext(), webPage.class);
+                intent.putExtra("url", eduData.url);
+                startActivity(intent);
+            }
+        });
+        binding.EducationRecyclerView.setAdapter(healthEduAdapter);
+    }
+
 
     private void showErrorMessage(){
         binding.textErrorMessage.setText(String.format("%s", "No data available"));
